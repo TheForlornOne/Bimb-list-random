@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Redirecting...</title>
+	<script type="text/javascript">
+		/*
+		This file randomly redirects a user to one of the URLs in a list. It is built
+		with the intent of randomization in a controlled experiment.
+
+		For example, create three Google Docs forms (or equivalent) and add their URLs
+		to the list below. That's it!
+
+		The user is then automatically and randomly assigned to one of the URLs when
+		the user visits this file. If the user decides to close and reopen the browser,
+		the user is still redirected to the same URL since a cookie is saved in the
+		user's browser.
+		
+		Peter M. Dahlgren
+		@peterdalle
+		peterdahlgren.com
+		2016-01-05
+		*/
+		
+		// List of URLs (two or more) for the experimental treatment and control groups.
+		var RedirectURLs = {
+			"urls" : [
+				{ "url" : "http://www.bambicloud.com/" },
+				{ "url" : "https://www.bambisleep.com" },
+				{ "url" : "https://cosmetic.transforminglives.co.uk/breast-surgery/breast-enlargement/" },
+				{ "url" : "https://www.nuffieldhealth.com/hospitals/brighton/treatments/vaginoplasty" },
+				{ "url" : "https://64.media.tumblr.com/b853ce200588ce8a6f54a395dbd6b873/c5426a5a57d52aa8-f7/s540x810/60a3196503fda3a1821b83727aefc0c3fbdaa8ee.gif" },
+				{ "url" : "https://hypno.nimja.com/visual/139?color=ff00ff&c=speed1.9&t=cff0000-f1-t21&lines=No+thoughts-Stupid-Dumb-Brainless-Cock+dumb-Stupid+slut-Airhead-Blonde+moment-Slow-Dummy-Cant+think-Dont+want+2+think-Idiot-100+IQ-90+IQ-80+IQ" },
+				{ "url" : "https://64.media.tumblr.com/ff4dc026140e51a02c130fc199a848bf/9852f71c1d81d5b8-fa/s400x600/d246a758946db88d455118206e339451b176f9e0.gifv" },
+	 { "url" : "https://cdn05.iwantclips.com/uploads/contents/videos/1475267/dee8a56393811d7f57d5359a85396687.gif" },
+  { "url" : "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f7dd12e5-8d56-4044-a04a-d0ac39c64f74/dimgatd-6b533b4f-9044-4317-b7ad-1a3abbe01b3a.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2Y3ZGQxMmU1LThkNTYtNDA0NC1hMDRhLWQwYWMzOWM2NGY3NFwvZGltZ2F0ZC02YjUzM2I0Zi05MDQ0LTQzMTctYjdhZC0xYTNhYmJlMDFiM2EuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.bXvDBUE1sEPMozF00L5QtNoh3PF2-UhIc297BxwVyTo" },			
+			{ "url" : "https://cdn5-images.motherlessmedia.com/images/2B0AE76.gif"},
+			{ "url" : "https://cdn5-images.motherlessmedia.com/images/2B0AE76.gif"},
+			{ "url" : "https://cdn5-images.motherlessmedia.com/images/DE56AF3.gif"},
+			{ "url" : "https://64.media.tumblr.com/d325ed35ad585c5b1ea635d8b4999deb/2705239cc98ab49a-72/s250x400/60b17b43aa44b58891a5e61c5afa23f8210d0f31.gifv"}
+				]
+		}
+
+		// Count the number of URLs in list.
+		var Groups = RedirectURLs.urls.length;
+
+		// Randomize number and get the corresponding index for the URL in list.
+		var gotoUrl = RedirectURLs.urls[GetRandomNumber(Groups)].url
+
+		// Perform redirection.
+		if (window.location.search == "?debug") {
+			// Debug mode: If user supplies a ?debug querystring,
+			// then only show the redirect URL, but don't actually redirect.
+			document.write("Redirect URL: " + gotoUrl);
+		} else {
+			// Redirect the user to the new URL.
+			document.location = gotoUrl;
+		}
+
+		// Perform randomization and save it to a cookie.
+		function GetRandomNumber(Groups) {
+			// Has cookie been set?
+			var rndIndex = null;
+			if (GetCookie() != "") {
+				// Yes, get randomization from cookie.
+				rndIndex = GetCookie()
+			} else {
+				// No, set random value to cookie.
+				rndIndex = Math.floor((Math.random() * Groups));
+				SetCookie(rndIndex, 30) // Set cookie for 30 days.
+			}
+			return rndIndex
+		}
+
+		// Set cookie with randomization value.
+		function SetCookie(CookieValue, DaysUntilExpire) {
+			var d = new Date();
+			d.setTime(d.getTime() + (DaysUntilExpire * 24 * 60 * 60 * 1000));
+			document.cookie = "rnd=" + CookieValue + ";expires=" + d.toUTCString();
+		}
+
+		// Get cookie with randomization value. Return empty string if not set.
+		function GetCookie() {
+			var ca = document.cookie.split(';');
+			for(var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ') c = c.substring(1);
+				if (c.indexOf("rnd=") == 0) return c.substring(4, c.length);
+			}
+			return "";
+		}
+	</script>
+</head>
+<body>
+</body>
+</html>
